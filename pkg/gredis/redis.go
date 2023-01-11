@@ -14,9 +14,20 @@ var RedisConn *redis.Pool
 // Setup Initialize the Redis instance
 func Setup() error {
 	RedisConn = &redis.Pool{
-		MaxIdle:     setting.RedisSetting.MaxIdle,
-		MaxActive:   setting.RedisSetting.MaxActive,
+		// Maximum number of idle connections in the pool.
+		// 最大空闲连接数
+		MaxIdle: setting.RedisSetting.MaxIdle,
+
+		// max number of connections
+		// 最大连接数, 0 表示没有限制
+		MaxActive: setting.RedisSetting.MaxActive,
+
+		// 最大空闲时间, 超过时间的空闲连接将被关闭
+		// 如果设置成0, 表示空闲连接不会被关闭
+		// 应该设置一个比redis服务端超时时间更短的时间
 		IdleTimeout: setting.RedisSetting.IdleTimeout,
+
+		// 返回 redis.Conn
 		Dial: func() (redis.Conn, error) {
 			c, err := redis.Dial("tcp", setting.RedisSetting.Host)
 			if err != nil {
@@ -30,6 +41,7 @@ func Setup() error {
 			}
 			return c, err
 		},
+		// 检查连接是否可用
 		TestOnBorrow: func(c redis.Conn, t time.Time) error {
 			_, err := c.Do("PING")
 			return err
