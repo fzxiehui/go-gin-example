@@ -45,16 +45,25 @@ func main() {
 	// 设置 gin 模式
 	// 生产环境下使用 gin.ReleaseMode
 	// 开发环境下使用 gin.DebugMode
-	// 测试环境下使用 gin.TestMode
 	// 默认 gin.DebugMode
 	gin.SetMode(setting.ServerSetting.RunMode)
 
+	// 初始化路由
 	routersInit := routers.InitRouter()
+
+	// 设置 读取超时时间
 	readTimeout := setting.ServerSetting.ReadTimeout
+
+	// 设置 写入超时时间
 	writeTimeout := setting.ServerSetting.WriteTimeout
+
+	// 设置 端口
 	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+
+	// 设置头信息 大小 1 << 20 = 1048576 = 1M
 	maxHeaderBytes := 1 << 20
 
+	// 设置服务器参数
 	server := &http.Server{
 		Addr:           endPoint,
 		Handler:        routersInit,
@@ -65,6 +74,7 @@ func main() {
 
 	log.Printf("[info] start http server listening %s", endPoint)
 
+	// 启动服务
 	server.ListenAndServe()
 
 	// If you want Graceful Restart, you need a Unix system and download github.com/fvbock/endless
