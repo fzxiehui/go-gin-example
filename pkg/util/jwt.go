@@ -1,6 +1,7 @@
 package util
 
 import (
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -30,6 +31,7 @@ func GenerateToken(username, password string) (string, error) {
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := tokenClaims.SignedString(jwtSecret)
+	log.Printf("token: %v", jwtSecret)
 
 	return token, err
 }

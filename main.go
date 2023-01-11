@@ -11,15 +11,26 @@ import (
 	"github.com/EDDYCJY/go-gin-example/pkg/gredis"
 	"github.com/EDDYCJY/go-gin-example/pkg/logging"
 	"github.com/EDDYCJY/go-gin-example/pkg/setting"
-	"github.com/EDDYCJY/go-gin-example/routers"
 	"github.com/EDDYCJY/go-gin-example/pkg/util"
+	"github.com/EDDYCJY/go-gin-example/routers"
 )
 
+// 初始化
 func init() {
+
+	// 初始化配置
 	setting.Setup()
+
+	// models 初始化
 	models.Setup()
+
+	// 初始化日志
 	logging.Setup()
+
+	// 初始化 redis
 	gredis.Setup()
+
+	// 初始化工具
 	util.Setup()
 }
 
@@ -30,6 +41,12 @@ func init() {
 // @license.name MIT
 // @license.url https://github.com/EDDYCJY/go-gin-example/blob/master/LICENSE
 func main() {
+
+	// 设置 gin 模式
+	// 生产环境下使用 gin.ReleaseMode
+	// 开发环境下使用 gin.DebugMode
+	// 测试环境下使用 gin.TestMode
+	// 默认 gin.DebugMode
 	gin.SetMode(setting.ServerSetting.RunMode)
 
 	routersInit := routers.InitRouter()
