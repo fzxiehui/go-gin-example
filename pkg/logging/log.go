@@ -2,23 +2,31 @@ package logging
 
 import (
 	"fmt"
-	"github.com/EDDYCJY/go-gin-example/pkg/file"
 	"log"
 	"os"
 	"path/filepath"
 	"runtime"
+
+	"github.com/EDDYCJY/go-gin-example/pkg/file"
 )
 
+// 日志等级
 type Level int
 
 var (
+	// 日志文件描述符
 	F *os.File
 
-	DefaultPrefix      = ""
+	// 默认日志前缀
+	DefaultPrefix = ""
+
+	// 默认日志标识
 	DefaultCallerDepth = 2
 
-	logger     *log.Logger
-	logPrefix  = ""
+	logger    *log.Logger
+	logPrefix = ""
+
+	// 日志等级 flag
 	levelFlags = []string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
 )
 
