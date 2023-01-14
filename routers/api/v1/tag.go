@@ -3,9 +3,9 @@ package v1
 import (
 	"net/http"
 
-	"github.com/unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 
 	"github.com/EDDYCJY/go-gin-example/pkg/app"
 	"github.com/EDDYCJY/go-gin-example/pkg/e"
@@ -24,10 +24,17 @@ import (
 // @Failure 500 {object} app.Response
 // @Router /api/v1/tags [get]
 func GetTags(c *gin.Context) {
+
 	appG := app.Gin{C: c}
+
+	// 获取参数 name
 	name := c.Query("name")
+
+	// 获取参数 state
 	state := -1
 	if arg := c.Query("state"); arg != "" {
+
+		// state 不为空，转换为 int 类型
 		state = com.StrTo(arg).MustInt()
 	}
 

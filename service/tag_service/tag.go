@@ -3,6 +3,7 @@ package tag_service
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"strconv"
 	"time"
 
@@ -28,6 +29,7 @@ type Tag struct {
 	PageSize int
 }
 
+// 按名字获取标签
 func (t *Tag) ExistByName() (bool, error) {
 	return models.ExistTagByName(t.Name)
 }
@@ -60,6 +62,7 @@ func (t *Tag) Count() (int, error) {
 }
 
 func (t *Tag) GetAll() ([]models.Tag, error) {
+
 	var (
 		tags, cacheTags []models.Tag
 	)
@@ -71,8 +74,15 @@ func (t *Tag) GetAll() ([]models.Tag, error) {
 		PageSize: t.PageSize,
 	}
 	key := cache.GetTagsKey()
+	// key = TAG_LIST_1_10
+	// 查看 redis 中是否有缓存
+	log.Println("查看 redis 中是否有缓存")
+	log.Println("key", key)
 	if gredis.Exists(key) {
+		// 从缓存中获取
 		data, err := gredis.Get(key)
+		log.Println("从缓存中获取")
+		log.Println(data)
 		if err != nil {
 			logging.Info(err)
 		} else {
@@ -81,7 +91,8 @@ func (t *Tag) GetAll() ([]models.Tag, error) {
 		}
 	}
 
-	tags, err := models.GetTags(t.PageNum, t.PageSize, t.getMaps())
+	tags, err := models.GetTags(t.PageNum,
+		t.PageSize, t.getMaps())
 	if err != nil {
 		return nil, err
 	}

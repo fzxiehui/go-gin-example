@@ -18,7 +18,7 @@ type Tag struct {
 
 func (t *Tag) GetTagsKey() string {
 	keys := []string{
-		e.CACHE_TAG,
+		e.CACHE_TAG, // TAG
 		"LIST",
 	}
 
@@ -35,5 +35,7 @@ func (t *Tag) GetTagsKey() string {
 		keys = append(keys, strconv.Itoa(t.PageSize))
 	}
 
+	// TAG_LIST_1_10
+	// log.Println(strings.Join(keys, "_"))
 	return strings.Join(keys, "_")
 }

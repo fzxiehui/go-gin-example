@@ -14,6 +14,7 @@ type Tag struct {
 }
 
 // ExistTagByName checks if there is a tag with the same name
+// 按名字获取标签
 func ExistTagByName(name string) (bool, error) {
 	var tag Tag
 	err := db.Select("id").Where("name = ? AND deleted_on = ? ", name, 0).First(&tag).Error
