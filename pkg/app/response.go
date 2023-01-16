@@ -10,6 +10,7 @@ type Gin struct {
 	C *gin.Context
 }
 
+// Response setting gin.JSON
 type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`

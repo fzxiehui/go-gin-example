@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/EDDYCJY/go-gin-example/docs"
+	"github.com/EDDYCJY/go-gin-example/middleware/jwt"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
@@ -18,20 +19,33 @@ import (
 
 // InitRouter initialize routing information
 func InitRouter() *gin.Engine {
+
 	r := gin.New()
+
+	// logs and recovery middleware
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
+	// 创建文件服务
 	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
+
+	// 创建图像存储服务
 	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
+
+	// 创建二维码服务
 	r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
 
-	r.POST("/auth", api.GetAuth)
+	// 创建登录路由
+	r.GET("/auth", api.GetAuth)
+
+	// 创建swagger文档路由
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// 创建图像上传路由
 	r.POST("/upload", api.UploadImage)
 
 	apiv1 := r.Group("/api/v1")
-	// apiv1.Use(jwt.JWT())
+	apiv1.Use(jwt.JWT())
 	{
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)
