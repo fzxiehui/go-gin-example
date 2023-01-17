@@ -22,6 +22,7 @@ func JWT() gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": "token is empty",
 			})
+			// Abort 确保中间件链中的其他处理程序不会被调用
 			c.Abort()
 			return
 
