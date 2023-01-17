@@ -16,8 +16,13 @@ type Claims struct {
 }
 
 // GenerateToken generate tokens used for auth
+// 产生 token 用于验证
 func GenerateToken(username, password string) (string, error) {
+
+	// 获取当前时间
 	nowTime := time.Now()
+
+	// 过期时间 3 小时
 	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
@@ -37,6 +42,7 @@ func GenerateToken(username, password string) (string, error) {
 }
 
 // ParseToken parsing token
+// 解析 token
 func ParseToken(token string) (*Claims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil

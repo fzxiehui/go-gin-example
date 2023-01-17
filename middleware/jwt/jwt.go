@@ -27,6 +27,7 @@ func JWT() gin.HandlerFunc {
 			return
 
 		} else {
+			// 解析 token
 			_, err := util.ParseToken(token)
 			if err != nil {
 				switch err.(*jwt.ValidationError).Errors {
@@ -50,6 +51,7 @@ func JWT() gin.HandlerFunc {
 			}
 		}
 
+		// 成功交给下一个中间件
 		c.Next()
 	}
 }
