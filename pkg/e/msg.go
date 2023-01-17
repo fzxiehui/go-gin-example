@@ -1,5 +1,6 @@
 package e
 
+// Response Msg
 var MsgFlags = map[int]string{
 	SUCCESS:                         "ok",
 	ERROR:                           "fail",

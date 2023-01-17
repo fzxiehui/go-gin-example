@@ -1,5 +1,6 @@
 package e
 
+// Response code
 const (
 	SUCCESS        = 200
 	ERROR          = 500
