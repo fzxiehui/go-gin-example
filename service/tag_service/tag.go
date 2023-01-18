@@ -63,13 +63,24 @@ func (t *Tag) Count() (int, error) {
 
 func (t *Tag) GetAll() ([]models.Tag, error) {
 
+	// type Tag struct {
+	// 	Model
+	//
+	// 	Name       string `json:"name"`
+	// 	CreatedBy  string `json:"created_by"`
+	// 	ModifiedBy string `json:"modified_by"`
+	// 	State      int    `json:"state"`
+	// }
+
 	var (
 		tags, cacheTags []models.Tag
 	)
 
 	cache := cache_service.Tag{
+		// input state
 		State: t.State,
 
+		// input page to int, (page - 1) * page_size
 		PageNum:  t.PageNum,
 		PageSize: t.PageSize,
 	}
@@ -91,6 +102,7 @@ func (t *Tag) GetAll() ([]models.Tag, error) {
 		}
 	}
 
+	// 从数据库中获取
 	tags, err := models.GetTags(t.PageNum,
 		t.PageSize, t.getMaps())
 	if err != nil {

@@ -49,10 +49,20 @@ func GetTags(pageNum int, pageSize int, maps interface{}) ([]Tag, error) {
 		tags []Tag
 		err  error
 	)
+	/*
+	 * maps = {
+	 * 	"state": 1, // input state
+	 * 	"name": "Go", // input name
+	 *  "deleted_on" : 0, // default
+	 * }
+	 */
 
 	if pageSize > 0 && pageNum > 0 {
+		// 分页 查找
 		err = db.Where(maps).Find(&tags).Offset(pageNum).Limit(pageSize).Error
 	} else {
+
+		// 查找
 		err = db.Where(maps).Find(&tags).Error
 	}
 
