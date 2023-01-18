@@ -111,6 +111,18 @@ Swagger 文档
 - Cron
 - Redis
 
+## api 调用过程
+
+```shell
+# router 
+	-> middleware 
+	-> api.v1 
+	-> service 
+	-> gredis 
+	-> mysql 
+	-> return
+```
+
 ## 联系我
 
 ![image](https://image.eddycjy.com/7074be90379a121746146bc4229819f8.jpg)
